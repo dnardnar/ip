@@ -33,22 +33,36 @@ public class UI {
             } else if(command.startsWith("unmark ")) {
                 int index = Integer.parseInt(command.split(" ")[1]);
                 unmarkTask(index);
+            } else if (command.startsWith("todo ")) {
+                String description = command.substring(5);
+                addTask(new ToDo(description));
+            } else if (command.startsWith("deadline ")) {
+                String[] parts = command.substring(9).split(" /by ");
+                addTask(new Deadline(parts[0], parts[1]));
+            } else if (command.startsWith("event ")) {
+                String[] parts = command.substring(6).split(" /");
+                addTask(new Event(parts[0], parts[1].substring(4), parts[2].substring(3)));
             } else {
-                addTask(command);
+                addTask(new Task(command));
             }
         }
         scanner.close();
     }
-    public void addTask(String description) {
-        Task task = new Task(description);
+    public void addTask(Task task) {
         tasks.add(task);
         printLine();
+        System.out.println(" Got ya.");
         System.out.println(" More??? Added: " + task);
+        System.out.println(tasks.size() + " tasks in the list. Do you have more?");
         printLine();
     }
     public void listTasks() {
         printLine();
-        System.out.println(" Do this task nowww!!:");
+        if (tasks.isEmpty()) {
+            System.out.println(" Your task list is empty!");
+            return;
+        }
+        System.out.println(" Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + ". " + tasks.get(i));
         }
