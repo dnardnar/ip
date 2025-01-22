@@ -52,6 +52,9 @@ public class UI {
                         throw new DNarException("NOOO!!! All fields for the event must be filled in.");
                     }
                     addTask(new Event(parts[0], parts[1].substring(4), parts[2].substring(3)));
+                } else if (command.startsWith("delete")) {
+                    int index = Integer.parseInt(command.split(" ")[1]);
+                    deleteTask(index);
                 } else {
                     throw new DNarException("HUHH!!! WDYM :-(");
                 }
@@ -108,6 +111,23 @@ public class UI {
             printLine();
             System.out.println(" What have you done!! This task is undone:");
             System.out.println("   " + tasks.get(index - 1));
+            printLine();
+        } catch (DNarException e) {
+            printLine();
+            System.out.println(" " + e.getMessage());
+            printLine();
+        }
+    }
+    public void deleteTask(int index) {
+        try {
+            if (index < 1 || index > tasks.size()) {
+                throw new DNarException("This does not exist!! Try 1 to number of tasks instead:D");
+            }
+            Task removedTask = tasks.remove(index - 1);
+            printLine();
+            System.out.println(" Shhh.. I've removed this task:");
+            System.out.println("   " + removedTask);
+            System.out.println(tasks.size() + " tasks in the list. Delete more?");
             printLine();
         } catch (DNarException e) {
             printLine();
