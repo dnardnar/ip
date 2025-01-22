@@ -22,28 +22,43 @@ public class UI {
         String command;
         while (true) {
             command = scanner.nextLine();
-            if (command.equals("bye")) {
-                exit();
-                break;
-            } else if(command.equals("list")) {
-                listTasks();
-            } else if(command.startsWith("mark ")){
-                int index = Integer.parseInt(command.split(" ")[1]);
-                markTask(index);
-            } else if(command.startsWith("unmark ")) {
-                int index = Integer.parseInt(command.split(" ")[1]);
-                unmarkTask(index);
-            } else if (command.startsWith("todo ")) {
-                String description = command.substring(5);
-                addTask(new ToDo(description));
-            } else if (command.startsWith("deadline ")) {
-                String[] parts = command.substring(9).split(" /by ");
-                addTask(new Deadline(parts[0], parts[1]));
-            } else if (command.startsWith("event ")) {
-                String[] parts = command.substring(6).split(" /");
-                addTask(new Event(parts[0], parts[1].substring(4), parts[2].substring(3)));
-            } else {
-                addTask(new Task(command));
+            try {
+                if (command.equals("bye")) {
+                    exit();
+                    break;
+                } else if (command.equals("list")) {
+                    listTasks();
+                } else if (command.startsWith("mark")) {
+                    int index = Integer.parseInt(command.split(" ")[1]);
+                    markTask(index);
+                } else if (command.startsWith("unmark")) {
+                    int index = Integer.parseInt(command.split(" ")[1]);
+                    unmarkTask(index);
+                } else if (command.startsWith("todo")) {
+                    String description = command.substring(4);
+                    if (description.isEmpty()) {
+                        throw new DNarException("NOOO!!! The description of a todo cannot be empty.");
+                    }
+                    addTask(new ToDo(description));
+                } else if (command.startsWith("deadline")) {
+                    String[] parts = command.substring(8).split(" /by ");
+                    if (parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty()) {
+                        throw new DNarException("NOOO!!! Both description and deadline time cannot be empty.");
+                    }
+                    addTask(new Deadline(parts[0], parts[1]));
+                } else if (command.startsWith("event")) {
+                    String[] parts = command.substring(5).split(" /");
+                    if (parts.length < 3 || parts[0].isEmpty() || parts[1].substring(4).isEmpty() || parts[2].substring(3).isEmpty()) {
+                        throw new DNarException("NOOO!!! All fields for the event must be filled in.");
+                    }
+                    addTask(new Event(parts[0], parts[1].substring(4), parts[2].substring(3)));
+                } else {
+                    throw new DNarException("HUHH!!! WDYM :-(");
+                }
+            } catch (DNarException e) {
+                printLine();
+                System.out.println(" " + e.getMessage());
+                printLine();
             }
         }
         scanner.close();
@@ -69,29 +84,35 @@ public class UI {
         printLine();
     }
     public void markTask(int index) {
-        if (index < 1 || index > tasks.size()) {
+        try {
+            if (index < 1 || index > tasks.size()) {
+                throw new DNarException("This does not exist!! Try 1 to number of tasks instead:D");
+            }
+            tasks.get(index - 1).markDone();
             printLine();
-            System.out.println(" XXX try again!!");
+            System.out.println(" That's crazyy!! Marking this task as done:");
+            System.out.println("   " + tasks.get(index - 1));
             printLine();
-            return;
+        } catch (DNarException e) {
+            printLine();
+            System.out.println(" " + e.getMessage());
+            printLine();
         }
-        tasks.get(index - 1).markDone();
-        printLine();
-        System.out.println(" That's crazyy!! Marking this task as done:");
-        System.out.println("   " + tasks.get(index - 1));
-        printLine();
     }
     public void unmarkTask(int index) {
-        if (index < 1 || index > tasks.size()) {
+        try {
+            if (index < 1 || index > tasks.size()) {
+                throw new DNarException("This does not exist!! Try 1 to number of tasks instead:D");
+            }
+            tasks.get(index - 1).markNotDone();
             printLine();
-            System.out.println(" XXX try again!!");
+            System.out.println(" What have you done!! This task is undone:");
+            System.out.println("   " + tasks.get(index - 1));
             printLine();
-            return;
+        } catch (DNarException e) {
+            printLine();
+            System.out.println(" " + e.getMessage());
+            printLine();
         }
-        tasks.get(index - 1).markNotDone();
-        printLine();
-        System.out.println(" What have you done!! This task is undone:");
-        System.out.println("   " + tasks.get(index - 1));
-        printLine();
     }
 }
