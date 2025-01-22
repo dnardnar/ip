@@ -1,5 +1,7 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 public class UI {
+    private ArrayList<String> tasks = new ArrayList<>();
     public void printLine() {
         System.out.println("____________________________________________________________");
     }
@@ -23,11 +25,26 @@ public class UI {
             if (command.equals("bye")) {
                 exit();
                 break;
+            } else if(command.equals("list")) {
+                listTasks();
+            } else {
+                addTask(command);
             }
-            printLine();
-            System.out.println(" Echo---ing: " + command);
-            printLine();
         }
         scanner.close();
+    }
+    public void addTask(String task) {
+        tasks.add(task);
+        printLine();
+        System.out.println(" More??? Added: " + task);
+        printLine();
+    }
+    public void listTasks() {
+        printLine();
+        System.out.println(" Do this task nowww!!:");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + ". " + tasks.get(i));
+        }
+        printLine();
     }
 }
