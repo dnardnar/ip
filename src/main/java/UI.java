@@ -1,3 +1,4 @@
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -49,11 +50,15 @@ public class UI {
                     }
                     addTask(new ToDo(description));
                 } else if (command.startsWith("deadline")) {
-                    String[] parts = command.substring(8).split(" /by ");
-                    if (parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty()) {
+                    String[] parts = command.substring(8).split(" /by ", 2);
+                    if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
                         throw new DNarException("NOOO!!! Both description and deadline time cannot be empty.");
                     }
-                    addTask(new Deadline(parts[0], parts[1]));
+                    try {
+                        addTask(new Deadline(parts[0].trim(), parts[1].trim()));
+                    } catch (DateTimeParseException e) {
+                        throw new DNarException("Invalid date format! Please use yyyy-MM-dd. :)");
+                    }
                 } else if (command.startsWith("event")) {
                     String[] parts = command.substring(5).split(" /");
                     if (parts.length < 3 || parts[0].isEmpty() || parts[1].substring(4).isEmpty() || parts[2].substring(3).isEmpty()) {
