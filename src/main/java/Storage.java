@@ -1,21 +1,17 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Storage {
-    private static final String FILE_PATH = "./data/DNar.txt";
+    private final String filePath;
 
-    public Storage() {
+    public Storage(String filePath) {
+        this.filePath = filePath;
         ensureFileExists();
     }
 
     private void ensureFileExists() {
-        File file = new File(FILE_PATH);
+        File file = new File(filePath);
         File directory = file.getParentFile();
 
         try {
@@ -31,7 +27,7 @@ public class Storage {
     }
 
     public void saveTasks(List<Task> tasks) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Task task : tasks) {
                 writer.write(task.toDataString());
                 writer.newLine();
@@ -43,7 +39,7 @@ public class Storage {
 
     public List<Task> loadTasks() {
         List<Task> tasks = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 Task task = parseTask(line);
