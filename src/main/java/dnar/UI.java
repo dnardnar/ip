@@ -2,17 +2,30 @@ package dnar;
 
 import java.util.Scanner;
 
+/**
+ * Handles interactions with the user, including displaying messages
+ * and reading user input.
+ */
 public class UI {
     private final Scanner scanner;
 
+    /**
+     * Constructs a new UI instance with a scanner for user input.
+     */
     public UI() {
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Prints a horizontal line for formatting output.
+     */
     public void showLine() {
         System.out.println("____________________________________________________________");
     }
 
+    /**
+     * Displays the welcome message.
+     */
     public void greet() {
         showLine();
         System.out.println(" Yo! I'm DNar");
@@ -20,16 +33,29 @@ public class UI {
         showLine();
     }
 
+    /**
+     * Displays the exit message.
+     */
     public void exit() {
         showLine();
         System.out.println(" Bye. Don't come back!");
         showLine();
     }
 
+    /**
+     * Reads and returns the next user input command.
+     *
+     * @return The command entered by the user.
+     */
     public String readCommand() {
         return scanner.nextLine();
     }
 
+    /**
+     * Displays the list of tasks.
+     *
+     * @param taskList The TaskList containing the user's tasks.
+     */
     public void listTasks(TaskList taskList) {
         showLine();
         if (taskList.size() == 0) {
@@ -43,6 +69,12 @@ public class UI {
         showLine();
     }
 
+    /**
+     * Displays a message confirming that a task has been added.
+     *
+     * @param task The task that was added.
+     * @param size The total number of tasks after adding.
+     */
     public void showAddedTask(Task task, int size) {
         showLine();
         System.out.println(" Got ya.");
@@ -51,6 +83,12 @@ public class UI {
         showLine();
     }
 
+    /**
+     * Displays a message confirming that a task has been deleted.
+     *
+     * @param task The task that was removed.
+     * @param size The total number of tasks after deletion.
+     */
     public void showDeletedTask(Task task, int size) {
         showLine();
         System.out.println(" Shhh.. I've removed this task:");
@@ -59,6 +97,11 @@ public class UI {
         showLine();
     }
 
+    /**
+     * Displays a message confirming that a task has been marked as done.
+     *
+     * @param task The task that was marked as done.
+     */
     public void showMarkDone(Task task) {
         showLine();
         System.out.println(" That's crazyy!! Marking this task as done:");
@@ -66,6 +109,11 @@ public class UI {
         showLine();
     }
 
+    /**
+     * Displays a message confirming that a task has been unmarked as done.
+     *
+     * @param task The task that was unmarked.
+     */
     public void showUnmarkDone(Task task) {
         showLine();
         System.out.println(" What have you done!! This task is undone:");
@@ -73,12 +121,20 @@ public class UI {
         showLine();
     }
 
+    /**
+     * Displays an error message.
+     *
+     * @param message The error message to display.
+     */
     public void showError(String message) {
         showLine();
         System.out.println(" " + message);
         showLine();
     }
 
+    /**
+     * Displays an error message when loading tasks fails.
+     */
     public void showLoadingError() {
         showLine();
         System.out.println(" Error loading tasks. Starting with an empty list.");
