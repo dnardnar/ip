@@ -1,6 +1,7 @@
 package dnar;
 
 import java.util.Scanner;
+import java.util.List;
 
 public class UI {
     private final Scanner scanner;
@@ -71,6 +72,15 @@ public class UI {
         System.out.println(" What have you done!! This task is undone:");
         System.out.println("   " + task);
         showLine();
+    }
+
+    public void showMatchingTasks(List<Task> tasks) {
+        System.out.println("____________________________________________________________");
+        System.out.println("Here are the matching tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + "." + tasks.get(i));
+        }
+        System.out.println("____________________________________________________________");
     }
 
     public void showError(String message) {

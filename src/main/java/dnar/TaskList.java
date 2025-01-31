@@ -42,4 +42,15 @@ public class TaskList {
             throw new DNarException("This does not exist!! Try 1 to " + tasks.size() + " instead:D");
         }
     }
+
+    public List<Task> findTasksByKeyword(String keyword) {
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.toString().contains(keyword)) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
+    }
+
 }

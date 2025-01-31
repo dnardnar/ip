@@ -1,6 +1,7 @@
 package dnar;
 
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 public class Parser {
     public static void parse(String command, TaskList taskList, UI ui, Storage storage) {
@@ -53,6 +54,17 @@ public class Parser {
                 int index = Integer.parseInt(command.split(" ")[1]) - 1;
                 Task removedTask = taskList.deleteTask(index, storage);
                 ui.showDeletedTask(removedTask, taskList.size());
+            } else if (command.startsWith("find")) {
+                String keyword = command.substring(4).trim();
+                if (keyword.isEmpty()) {
+                    throw new DNarException("NOOO!!! The search keyword cannot be empty.");
+                }
+                List<Task> matchingTasks = taskList.findTasksByKeyword(keyword);
+                if (matchingTasks.isEmpty()) {
+                    ui.showError("No tasks found with the keyword: " + keyword);
+                } else {
+                    ui.showMatchingTasks(matchingTasks);
+                }
             } else {
                 throw new DNarException("HUHH!!! WDYM :-(");
             }

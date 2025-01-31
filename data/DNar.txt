@@ -1,0 +1,4 @@
+T | 0 | book
+T | 0 | borrow book
+T | 0 | book borrow
+T | 0 | boo borow
