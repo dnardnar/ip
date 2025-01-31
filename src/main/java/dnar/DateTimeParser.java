@@ -15,4 +15,9 @@ public class DateTimeParser {
     public static String formatDate(LocalDate date) {
         return date.format(OUTPUT_FORMAT);
     }
+
+    public static String unparseDate(String formattedDate) throws DateTimeParseException {
+        LocalDate date = LocalDate.parse(formattedDate, OUTPUT_FORMAT);
+        return date.format(INPUT_FORMAT);
+    }
 }

@@ -66,7 +66,8 @@ public class Storage {
                 case "T":
                     return new ToDo(description, isDone);
                 case "D":
-                    return new Deadline(description, parts[3], isDone);
+                    String deadlineDate = DateTimeParser.unparseDate(parts[3]);
+                    return new Deadline(description, deadlineDate, isDone);
                 case "E":
                     return new Event(description, parts[3], parts[4], isDone);
                 default:
