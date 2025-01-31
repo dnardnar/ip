@@ -1,17 +1,36 @@
 package dnar;
 
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles the saving and loading of tasks from a file.
+ */
 public class Storage {
     private final String filePath;
 
+    /**
+     * Constructs a Storage object with the given file path.
+     * Ensures the file and its parent directory exist.
+     *
+     * @param filePath The relative or absolute path to the storage file.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
         ensureFileExists();
     }
 
+    /**
+     * Ensures that the storage file and its parent directory exist.
+     * Creates them if they do not exist.
+     */
     private void ensureFileExists() {
         File file = new File(filePath);
         File directory = file.getParentFile();
@@ -28,6 +47,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the given list of tasks to the storage file.
+     *
+     * @param tasks The list of tasks to be saved.
+     */
     public void saveTasks(List<Task> tasks) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Task task : tasks) {
@@ -39,6 +63,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads tasks from the storage file.
+     *
+     * @return A list of tasks retrieved from the file.
+     */
     public List<Task> loadTasks() {
         List<Task> tasks = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -55,6 +84,13 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Parses a line from the storage file and converts it into a Task object.
+     * Handles different task types such as ToDo, Deadline, and Event.
+     *
+     * @param line The line from the file to parse.
+     * @return A Task object, or null if the line is corrupted or invalid.
+     */
     private Task parseTask(String line) {
         try {
             String[] parts = line.split(" \\| ");
