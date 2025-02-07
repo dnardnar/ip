@@ -33,4 +33,7 @@ public class DNar {
     public static void main(String[] args) {
         new DNar("data/DNar.txt").run();
     }
+    public String getResponse(String input) {
+        return "DNar heard: " + input;
+    }
 }

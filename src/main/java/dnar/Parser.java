@@ -6,9 +6,7 @@ import java.util.List;
 public class Parser {
     public static void parse(String command, TaskList taskList, UI ui, Storage storage) {
         try {
-            if (command.equals("bye")) {
-                ui.exit();
-            } else if (command.equals("list")) {
+            if (command.equals("list")) {
                 ui.listTasks(taskList);
             } else if (command.startsWith("mark")) {
                 int index = Integer.parseInt(command.split(" ")[1]) - 1;
