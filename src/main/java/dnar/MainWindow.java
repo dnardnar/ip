@@ -1,0 +1,48 @@
+package dnar;
+
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.AnchorPane;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class MainWindow extends AnchorPane implements Initializable {
+
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private VBox dialogContainer;
+    @FXML
+    private TextField userInput;
+    @FXML
+    private Button sendButton;
+
+    private DNar dnar;
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/images.png"));
+    private Image dnarImage = new Image(this.getClass().getResourceAsStream("/images/Do-Not-Attempt.jpg"));
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+    }
+
+    public void setDnar(DNar d) {
+        dnar = d;
+    }
+
+    @FXML
+    private void handleUserInput() {
+        String input = userInput.getText();
+        String response = dnar.getResponse(input);
+        dialogContainer.getChildren().addAll(
+                DialogBox.getUserDialog(input, userImage),
+                DialogBox.getDnarDialog(response, dnarImage)
+        );
+        userInput.clear();
+    }
+}
