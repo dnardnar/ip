@@ -1,13 +1,27 @@
 package dnar;
 
-import java.util.Scanner;
 import java.util.List;
+import java.util.Scanner;
 
 /**
- * Handles interactions with the user, including displaying messages
- * and reading user input.
+ * Handles interactions with the user, including displaying messages and reading user input.
  */
 public class UI {
+
+    private static final String LINE = "____________________________________________________________";
+    private static final String WELCOME_MESSAGE_1 = " Yo! I'm DNar";
+    private static final String WELCOME_MESSAGE_2 = " Can you?";
+    private static final String EXIT_MESSAGE = " Bye. Don't come back!";
+    private static final String EMPTY_TASK_LIST_MESSAGE = " Your task list is empty!";
+    private static final String TASK_LIST_HEADER = " Here are the tasks in your list:";
+    private static final String ADDED_TASK_MESSAGE_1 = " Got ya.";
+    private static final String ADDED_TASK_MESSAGE_2 = " More??? Added: ";
+    private static final String ADDED_TASK_MESSAGE_3 = " tasks in the list. Do you have more?";
+    private static final String DELETED_TASK_MESSAGE_1 = " Shhh.. I've removed this task:";
+    private static final String DELETED_TASK_MESSAGE_2 = " tasks in the list. Delete more?";
+    private static final String MARK_DONE_MESSAGE_1 = " That's crazyy!! Marking this task as done:";
+    private static final String UNMARK_DONE_MESSAGE_1 = " What have you done!! This task is undone:";
+    private static final String LOADING_ERROR_MESSAGE = " Error loading tasks. Starting with an empty list.";
     private final Scanner scanner;
 
     /**
@@ -21,7 +35,7 @@ public class UI {
      * Prints a horizontal line for formatting output.
      */
     public void showLine() {
-        System.out.println("____________________________________________________________");
+        System.out.println(LINE);
     }
 
     /**
@@ -29,8 +43,8 @@ public class UI {
      */
     public void greet() {
         showLine();
-        System.out.println(" Yo! I'm DNar");
-        System.out.println(" Can you?");
+        System.out.println(WELCOME_MESSAGE_1);
+        System.out.println(WELCOME_MESSAGE_2);
         showLine();
     }
 
@@ -39,7 +53,7 @@ public class UI {
      */
     public void exit() {
         showLine();
-        System.out.println(" Bye. Don't come back!");
+        System.out.println(EXIT_MESSAGE);
         showLine();
     }
 
@@ -60,9 +74,9 @@ public class UI {
     public void listTasks(TaskList taskList) {
         showLine();
         if (taskList.size() == 0) {
-            System.out.println(" Your task list is empty!");
+            System.out.println(EMPTY_TASK_LIST_MESSAGE);
         } else {
-            System.out.println(" Here are the tasks in your list:");
+            System.out.println(TASK_LIST_HEADER);
             for (int i = 0; i < taskList.size(); i++) {
                 System.out.println((i + 1) + ". " + taskList.getTask(i));
             }
@@ -78,9 +92,9 @@ public class UI {
      */
     public void showAddedTask(Task task, int size) {
         showLine();
-        System.out.println(" Got ya.");
-        System.out.println(" More??? Added: " + task);
-        System.out.println(size + " tasks in the list. Do you have more?");
+        System.out.println(ADDED_TASK_MESSAGE_1);
+        System.out.println(ADDED_TASK_MESSAGE_2 + task);
+        System.out.println(size + ADDED_TASK_MESSAGE_3);
         showLine();
     }
 
@@ -92,9 +106,9 @@ public class UI {
      */
     public void showDeletedTask(Task task, int size) {
         showLine();
-        System.out.println(" Shhh.. I've removed this task:");
+        System.out.println(DELETED_TASK_MESSAGE_1);
         System.out.println("   " + task);
-        System.out.println(size + " tasks in the list. Delete more?");
+        System.out.println(size + DELETED_TASK_MESSAGE_2);
         showLine();
     }
 
@@ -105,7 +119,7 @@ public class UI {
      */
     public void showMarkDone(Task task) {
         showLine();
-        System.out.println(" That's crazyy!! Marking this task as done:");
+        System.out.println(MARK_DONE_MESSAGE_1);
         System.out.println("   " + task);
         showLine();
     }
@@ -117,18 +131,23 @@ public class UI {
      */
     public void showUnmarkDone(Task task) {
         showLine();
-        System.out.println(" What have you done!! This task is undone:");
+        System.out.println(UNMARK_DONE_MESSAGE_1);
         System.out.println("   " + task);
         showLine();
     }
 
+    /**
+     * Displays the matching tasks from the search keyword
+     *
+     * @param tasks the tasks that has the keyword
+     */
     public void showMatchingTasks(List<Task> tasks) {
-        System.out.println("____________________________________________________________");
+        showLine();
         System.out.println("Here are the matching tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + "." + tasks.get(i));
         }
-        System.out.println("____________________________________________________________");
+        showLine();
     }
 
     /**
@@ -147,7 +166,7 @@ public class UI {
      */
     public void showLoadingError() {
         showLine();
-        System.out.println(" Error loading tasks. Starting with an empty list.");
+        System.out.println(LOADING_ERROR_MESSAGE);
         showLine();
     }
 }

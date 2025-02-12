@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 
 public class Main extends Application {
     private static final String DEFAULT_FILE_PATH = "data/DNar.txt";
-    private DNar dnar = new DNar(DEFAULT_FILE_PATH);
+    private DNar dnar = new DNar(DEFAULT_FILE_PATH, new UI(), new Storage(DEFAULT_FILE_PATH));
     private ScrollPane scrollPane;
     private VBox dialogContainer;
     private TextField userInput;

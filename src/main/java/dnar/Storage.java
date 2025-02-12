@@ -1,6 +1,5 @@
 package dnar;
 
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,6 +13,10 @@ import java.util.List;
  * Handles the saving and loading of tasks from a file.
  */
 public class Storage {
+    private static final String DELIMITER = " \\| ";
+    private static final String TASK_TYPE_TODO = "T";
+    private static final String TASK_TYPE_DEADLINE = "D";
+    private static final String TASK_TYPE_EVENT = "E";
     private final String filePath;
 
     /**
@@ -28,22 +31,31 @@ public class Storage {
     }
 
     /**
-     * Ensures that the storage file and its parent directory exist.
-     * Creates them if they do not exist.
+     * Ensures that the storage file and its parent directory exist. Creates them if they do not exist.
      */
     private void ensureFileExists() {
         File file = new File(filePath);
-        File directory = file.getParentFile();
+        createDirectories(file.getParentFile());
+        createFile(file);
+    }
 
-        try {
-            if (directory != null && !directory.exists()) {
-                directory.mkdirs();
+    private void createDirectories(File directory) {
+        if (directory != null && !directory.exists()) {
+            if (!directory.mkdirs()) {
+                System.err.println("Failed to create directories."); // Use System.err for errors
             }
-            if (!file.exists()) {
-                file.createNewFile();
+        }
+    }
+
+    private void createFile(File file) {
+        if (!file.exists()) {
+            try {
+                if (!file.createNewFile()) {
+                    System.err.println("Failed to create new file.");
+                }
+            } catch (IOException e) {
+                System.err.println("Error creating storage file: " + e.getMessage()); // Use System.err
             }
-        } catch (IOException e) {
-            System.out.println("Error creating storage file: " + e.getMessage());
         }
     }
 
@@ -55,12 +67,16 @@ public class Storage {
     public void saveTasks(List<Task> tasks) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Task task : tasks) {
-                writer.write(task.toDataString());
-                writer.newLine();
+                writeTaskToFile(writer, task);
             }
         } catch (IOException e) {
-            System.out.println("Error saving tasks: " + e.getMessage());
+            System.err.println("Error saving tasks: " + e.getMessage()); // Use System.err
         }
+    }
+
+    private void writeTaskToFile(BufferedWriter writer, Task task) throws IOException {
+        writer.write(task.toDataString());
+        writer.newLine();
     }
 
     /**
@@ -79,7 +95,7 @@ public class Storage {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error loading tasks: " + e.getMessage());
+            System.err.println("Error loading tasks: " + e.getMessage()); // Use System.err
         }
         return tasks;
     }
@@ -92,26 +108,41 @@ public class Storage {
      * @return A Task object, or null if the line is corrupted or invalid.
      */
     private Task parseTask(String line) {
+        if (line == null || line.isEmpty()) {
+            return null;
+        }
         try {
-            String[] parts = line.split(" \\| ");
+            String[] parts = line.split(DELIMITER);
+            if (parts.length < 3) {
+                System.err.println("Skipping corrupted entry: " + line);
+                return null;
+            }
             String type = parts[0];
             boolean isDone = parts[1].equals("1");
             String description = parts[2];
 
             switch (type) {
-                case "T":
-                    return new ToDo(description, isDone);
-                case "D":
-                    String deadlineDate = DateTimeParser.unparseDate(parts[3]);
-                    return new Deadline(description, deadlineDate, isDone);
-                case "E":
-                    return new Event(description, parts[3], parts[4], isDone);
-                default:
-                    System.out.println("Skipping corrupted entry: " + line);
+            case TASK_TYPE_TODO:
+                return new ToDo(description, isDone);
+            case TASK_TYPE_DEADLINE:
+                if (parts.length < 4) {
+                    System.err.println("Skipping corrupted entry: " + line);
                     return null;
+                }
+                String deadlineDate = DateTimeParser.reformatDateForStorage(parts[3]);
+                return new Deadline(description, deadlineDate, isDone);
+            case TASK_TYPE_EVENT:
+                if (parts.length < 5) {
+                    System.err.println("Skipping corrupted entry: " + line);
+                    return null;
+                }
+                return new Event(description, parts[3], parts[4], isDone);
+            default:
+                System.err.println("Skipping corrupted entry: " + line);
+                return null;
             }
         } catch (Exception e) {
-            System.out.println("Skipping corrupted entry: " + line);
+            System.err.println("Skipping corrupted entry: " + line);
             return null;
         }
     }
