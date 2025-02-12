@@ -1,6 +1,5 @@
 package dnar;
 
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,6 +22,7 @@ public class Storage {
      * @param filePath The relative or absolute path to the storage file.
      */
     public Storage(String filePath) {
+        assert filePath != null : "File path should not be null";
         this.filePath = filePath;
         ensureFileExists();
     }
@@ -42,6 +42,10 @@ public class Storage {
             if (!file.exists()) {
                 file.createNewFile();
             }
+            assert file.exists() : "File should exist after creation";
+            if (directory != null) {
+                assert directory.exists() : "Parent directory should exist";
+            }
         } catch (IOException e) {
             System.out.println("Error creating storage file: " + e.getMessage());
         }
@@ -53,8 +57,10 @@ public class Storage {
      * @param tasks The list of tasks to be saved.
      */
     public void saveTasks(List<Task> tasks) {
+        assert tasks != null : "Tasks list should not be null";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Task task : tasks) {
+                assert task != null : "Each task should not be null";
                 writer.write(task.toDataString());
                 writer.newLine();
             }
@@ -73,6 +79,7 @@ public class Storage {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
+                assert line != null : "Each line should not be null";
                 Task task = parseTask(line);
                 if (task != null) {
                     tasks.add(task);
@@ -92,23 +99,27 @@ public class Storage {
      * @return A Task object, or null if the line is corrupted or invalid.
      */
     private Task parseTask(String line) {
+        assert line != null : "Line should not be null";
         try {
             String[] parts = line.split(" \\| ");
+            assert parts.length > 2 : "Line should have at least three parts";
             String type = parts[0];
             boolean isDone = parts[1].equals("1");
             String description = parts[2];
 
             switch (type) {
-                case "T":
-                    return new ToDo(description, isDone);
-                case "D":
-                    String deadlineDate = DateTimeParser.unparseDate(parts[3]);
-                    return new Deadline(description, deadlineDate, isDone);
-                case "E":
-                    return new Event(description, parts[3], parts[4], isDone);
-                default:
-                    System.out.println("Skipping corrupted entry: " + line);
-                    return null;
+            case "T":
+                return new ToDo(description, isDone);
+            case "D":
+                assert parts.length >= 4 : "Deadline line should have at least four parts";
+                String deadlineDate = DateTimeParser.unparseDate(parts[3]);
+                return new Deadline(description, deadlineDate, isDone);
+            case "E":
+                assert parts.length >= 5 : "Event line should have at least five parts";
+                return new Event(description, parts[3], parts[4], isDone);
+            default:
+                System.out.println("Skipping corrupted entry: " + line);
+                return null;
             }
         } catch (Exception e) {
             System.out.println("Skipping corrupted entry: " + line);
