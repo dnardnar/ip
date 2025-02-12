@@ -30,6 +30,11 @@ public class Parser {
      * @param storage  The storage object.
      */
     public static void parse(String command, TaskList taskList, UI ui, Storage storage) {
+        assert command != null : "Command should not be null";
+        assert taskList != null : "TaskList should not be null";
+        assert ui != null : "UI should not be null";
+        assert storage != null : "Storage should not be null";
+
         try {
             switch (command) {
             case COMMAND_LIST:
