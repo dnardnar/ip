@@ -9,8 +9,8 @@ import java.util.List;
  * synchronized with persistent storage.
  */
 public class TaskList {
-    private final List<Task> tasks;
-    private final Storage storage;
+    private List<Task> tasks;
+    private Storage storage;
     private static final String ERROR_INVALID_INDEX = "This does not exist!! Try 1 to %d instead:D";
 
     /**
@@ -119,6 +119,34 @@ public class TaskList {
     }
 
     private void saveTasks() {
+        storage.saveTasks(tasks);
+    }
+
+    /**
+     * Edits the details of a task at the specified index.
+     *
+     * @param index The index of the task to edit.
+     * @param field The field to update (e.g., "description", "start", "end").
+     * @param newValue The new value for the specified field.
+     * @throws DNarException If the index is invalid or the field is not editable.
+     */
+    public void editTask(int index, String field, String newValue) throws DNarException {
+        validateIndex(index);
+        Task task = tasks.get(index);
+
+        if (field.equalsIgnoreCase("description")) {
+            task.setDescription(newValue);
+        } else if (task instanceof Event && field.equalsIgnoreCase("start")) {
+            ((Event) task).setStart(newValue);
+        } else if (task instanceof Event && field.equalsIgnoreCase("end")) {
+            ((Event) task).setEnd(newValue);
+        } else if (task instanceof Deadline && field.equalsIgnoreCase("end")) {
+            ((Deadline) task).setEnd(newValue);
+        } else {
+            throw new DNarException("Invalid field: " + field + ". Cannot edit this field.");
+        }
+
+        // Save updated tasks to storage
         storage.saveTasks(tasks);
     }
 }

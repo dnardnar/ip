@@ -169,4 +169,12 @@ public class UI {
         System.out.println(LOADING_ERROR_MESSAGE);
         showLine();
     }
+
+    public void showEditSuccess(Task task) {
+        showLine();
+        System.out.println("Successfully updated the task:");
+        System.out.println("   " + task);
+        showLine();
+    }
+
 }

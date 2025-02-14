@@ -6,7 +6,7 @@ package dnar;
  * for marking tasks as done or not done.
  */
 public abstract class Task {
-    protected final String description;
+    protected String description;
     protected boolean isDone;
 
     /**
@@ -30,6 +30,9 @@ public abstract class Task {
         this.isDone = isDone;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
     /**
      * Marks the task as done.
      */

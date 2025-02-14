@@ -7,7 +7,7 @@ import java.time.LocalDate;
  * Deadlines have a description and an end date, and can be marked as done.
  */
 public class Deadline extends Task {
-    private final LocalDate end;
+    private LocalDate end;
 
     /**
      * Constructs a Deadline task with a description and an end date.
@@ -36,6 +36,9 @@ public class Deadline extends Task {
         this.end = DateTimeParser.parseDate(end);
     }
 
+    public void setEnd(String end) {
+        this.end = DateTimeParser.parseDate(end);
+    }
     /**
      * Converts the Deadline task to a data string for file storage.
      * The format is: "D | isDone | description | end".  The 'end' date is

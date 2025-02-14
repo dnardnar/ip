@@ -54,12 +54,8 @@ public class Storage {
                 if (!file.createNewFile()) {
                     System.err.println("Failed to create new file.");
                 }
-                // Assertions to ensure the file and directory exist after creation
+                // Assertion to ensure the file exist after creation
                 assert file.exists() : "File should exist after creation";
-                File directory = file.getParentFile();
-                if (directory != null) {
-                    assert directory.exists() : "Parent directory should exist";
-                }
             } catch (IOException e) {
                 System.err.println("Error creating storage file: " + e.getMessage());
             }
@@ -100,11 +96,8 @@ public class Storage {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                assert line != null : "Each line should not be null";
                 Task task = parseTask(line);
-                if (task != null) {
-                    tasks.add(task);
-                }
+                tasks.add(task);
             }
         } catch (IOException e) {
             System.err.println("Error loading tasks: " + e.getMessage()); // Use System.err

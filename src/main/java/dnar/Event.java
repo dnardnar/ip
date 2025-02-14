@@ -5,8 +5,8 @@ package dnar;
  * a start time, and an end time. They inherit common task functionalities from the Task class.
  */
 public class Event extends Task {
-    private final String start;
-    private final String end;
+    private String start;
+    private String end;
 
     /**
      * Constructs an Event task with a description, start, and end date/time.
@@ -37,6 +37,13 @@ public class Event extends Task {
         this.end = end;
     }
 
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
+    }
     /**
      * Converts the event into a string format suitable for storage.
      * The format is: "E | isDone | description | start | end".  The start and end times are
