@@ -59,7 +59,6 @@ public class UI {
         showLine();
         addResponse(WELCOME_MESSAGE_1);
         addResponse(WELCOME_MESSAGE_2);
-        showLine();
     }
 
     /**
@@ -68,7 +67,6 @@ public class UI {
     public void exit() {
         showLine();
         addResponse(EXIT_MESSAGE);
-        showLine();
     }
 
     /**
@@ -86,7 +84,6 @@ public class UI {
                 addResponse((i + 1) + ". " + taskList.getTask(i));
             }
         }
-        showLine();
     }
 
     /**
@@ -100,7 +97,6 @@ public class UI {
         addResponse(ADDED_TASK_MESSAGE_1);
         addResponse(ADDED_TASK_MESSAGE_2 + task);
         addResponse(size + ADDED_TASK_MESSAGE_3);
-        showLine();
     }
 
     /**
@@ -114,7 +110,6 @@ public class UI {
         addResponse(DELETED_TASK_MESSAGE_1);
         addResponse("   " + task);
         addResponse(size + DELETED_TASK_MESSAGE_2);
-        showLine();
     }
 
     /**
@@ -126,7 +121,6 @@ public class UI {
         showLine();
         addResponse(MARK_DONE_MESSAGE_1);
         addResponse("   " + task);
-        showLine();
     }
 
     /**
@@ -138,7 +132,6 @@ public class UI {
         showLine();
         addResponse(UNMARK_DONE_MESSAGE_1);
         addResponse("   " + task);
-        showLine();
     }
 
     /**
@@ -152,7 +145,6 @@ public class UI {
         for (int i = 0; i < tasks.size(); i++) {
             addResponse((i + 1) + "." + tasks.get(i));
         }
-        showLine();
     }
 
     /**
@@ -163,7 +155,6 @@ public class UI {
     public void showError(String message) {
         showLine();
         addResponse(" " + message);
-        showLine();
     }
 
     /**
@@ -172,14 +163,12 @@ public class UI {
     public void showLoadingError() {
         showLine();
         addResponse(LOADING_ERROR_MESSAGE);
-        showLine();
     }
 
     public void showEditSuccess(Task task) {
         showLine();
         addResponse("Successfully updated the task:");
         addResponse("   " + task);
-        showLine();
     }
 
     private void addResponse(String text) {

@@ -31,6 +31,7 @@ public class Main extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
+            stage.setTitle("DNar Chatbot");
             MainWindow mainWindow = fxmlLoader.<MainWindow>getController();
             Storage storage = new Storage(DEFAULT_FILE_PATH);
             dnar = new DNar(DEFAULT_FILE_PATH, new UI(), storage);
