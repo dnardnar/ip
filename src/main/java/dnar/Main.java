@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 
 public class Main extends Application {
     private static final String DEFAULT_FILE_PATH = "data/DNar.txt";
-    private DNar dnar = new DNar(DEFAULT_FILE_PATH, new UI(), new Storage(DEFAULT_FILE_PATH));
+    private DNar dnar;
     private ScrollPane scrollPane;
     private VBox dialogContainer;
     private TextField userInput;
@@ -31,25 +31,14 @@ public class Main extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
-            fxmlLoader.<MainWindow>getController().setDnar(dnar);
+            MainWindow mainWindow = fxmlLoader.<MainWindow>getController();
+            Storage storage = new Storage(DEFAULT_FILE_PATH);
+            dnar = new DNar(DEFAULT_FILE_PATH, new UI(), storage);
+            mainWindow.setDnar(dnar);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void handleUserInput() {
-        String userText = userInput.getText();
-        String dnarText = dnar.getResponse(userInput.getText());
-        dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(userText, userImage),
-                DialogBox.getDnarDialog(dnarText, dnarImage)
-        );
-        userInput.clear();
-    }
-
-    private String getResponse(String input) {
-        return "You said: " + input + ". I'm here to assist!";
     }
 
     public static void main(String[] args) {

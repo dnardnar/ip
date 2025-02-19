@@ -1,7 +1,0 @@
-T | 0 | book
-T | 1 | book
-T | 0 | book borrow
-T | 0 | boo borow
-T | 0 | borrow book
-D | 0 | return book | Feb 15 2025
-E | 0 |  project meeting |  Mon 2pm | 4pm

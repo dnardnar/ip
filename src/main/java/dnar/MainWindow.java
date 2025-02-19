@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.AnchorPane;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -25,6 +26,7 @@ public class MainWindow extends AnchorPane implements Initializable {
     private DNar dnar;
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/images.png"));
     private Image dnarImage = new Image(this.getClass().getResourceAsStream("/images/Do-Not-Attempt.jpg"));
+    private UI ui; // Add a UI instance
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -33,16 +35,21 @@ public class MainWindow extends AnchorPane implements Initializable {
 
     public void setDnar(DNar d) {
         dnar = d;
+        this.ui = new UI(dialogContainer, userImage, dnarImage); // Initialize UI with dialogContainer
+        ui.greet(); // Display initial greeting
     }
 
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        String response = dnar.getResponse(input);
-        dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDnarDialog(response, dnarImage)
-        );
+        dialogContainer.getChildren().add(DialogBox.getUserDialog(input, userImage)); // Display user input
+
+        try {
+            Parser.parse(input, dnar.getTaskList(), ui, dnar.getStorage()); // Pass TaskList and Storage
+        } catch (Exception e) {
+            ui.showError("An unexpected error occurred: " + e.getMessage());
+        }
+
         userInput.clear();
     }
 }

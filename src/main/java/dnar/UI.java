@@ -1,7 +1,12 @@
 package dnar;
 
+import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
+import javafx.application.Platform;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Region;
+
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Handles interactions with the user, including displaying messages and reading user input.
@@ -22,20 +27,29 @@ public class UI {
     private static final String MARK_DONE_MESSAGE_1 = " That's crazyy!! Marking this task as done:";
     private static final String UNMARK_DONE_MESSAGE_1 = " What have you done!! This task is undone:";
     private static final String LOADING_ERROR_MESSAGE = " Error loading tasks. Starting with an empty list.";
-    private final Scanner scanner;
+
+    private VBox dialogContainer;
+    private Image userImage;
+    private Image dnarImage;
 
     /**
      * Constructs a new UI instance with a scanner for user input.
      */
     public UI() {
-        this.scanner = new Scanner(System.in);
+        // Default constructor
+    }
+
+    public UI(VBox dialogContainer, Image userImage, Image dnarImage) {
+        this.dialogContainer = dialogContainer;
+        this.userImage = userImage;
+        this.dnarImage = dnarImage;
     }
 
     /**
      * Prints a horizontal line for formatting output.
      */
     public void showLine() {
-        System.out.println(LINE);
+        addResponse(LINE);
     }
 
     /**
@@ -43,8 +57,8 @@ public class UI {
      */
     public void greet() {
         showLine();
-        System.out.println(WELCOME_MESSAGE_1);
-        System.out.println(WELCOME_MESSAGE_2);
+        addResponse(WELCOME_MESSAGE_1);
+        addResponse(WELCOME_MESSAGE_2);
         showLine();
     }
 
@@ -53,17 +67,8 @@ public class UI {
      */
     public void exit() {
         showLine();
-        System.out.println(EXIT_MESSAGE);
+        addResponse(EXIT_MESSAGE);
         showLine();
-    }
-
-    /**
-     * Reads and returns the next user input command.
-     *
-     * @return The command entered by the user.
-     */
-    public String readCommand() {
-        return scanner.nextLine();
     }
 
     /**
@@ -74,11 +79,11 @@ public class UI {
     public void listTasks(TaskList taskList) {
         showLine();
         if (taskList.size() == 0) {
-            System.out.println(EMPTY_TASK_LIST_MESSAGE);
+            addResponse(EMPTY_TASK_LIST_MESSAGE);
         } else {
-            System.out.println(TASK_LIST_HEADER);
+            addResponse(TASK_LIST_HEADER);
             for (int i = 0; i < taskList.size(); i++) {
-                System.out.println((i + 1) + ". " + taskList.getTask(i));
+                addResponse((i + 1) + ". " + taskList.getTask(i));
             }
         }
         showLine();
@@ -92,9 +97,9 @@ public class UI {
      */
     public void showAddedTask(Task task, int size) {
         showLine();
-        System.out.println(ADDED_TASK_MESSAGE_1);
-        System.out.println(ADDED_TASK_MESSAGE_2 + task);
-        System.out.println(size + ADDED_TASK_MESSAGE_3);
+        addResponse(ADDED_TASK_MESSAGE_1);
+        addResponse(ADDED_TASK_MESSAGE_2 + task);
+        addResponse(size + ADDED_TASK_MESSAGE_3);
         showLine();
     }
 
@@ -106,9 +111,9 @@ public class UI {
      */
     public void showDeletedTask(Task task, int size) {
         showLine();
-        System.out.println(DELETED_TASK_MESSAGE_1);
-        System.out.println("   " + task);
-        System.out.println(size + DELETED_TASK_MESSAGE_2);
+        addResponse(DELETED_TASK_MESSAGE_1);
+        addResponse("   " + task);
+        addResponse(size + DELETED_TASK_MESSAGE_2);
         showLine();
     }
 
@@ -119,8 +124,8 @@ public class UI {
      */
     public void showMarkDone(Task task) {
         showLine();
-        System.out.println(MARK_DONE_MESSAGE_1);
-        System.out.println("   " + task);
+        addResponse(MARK_DONE_MESSAGE_1);
+        addResponse("   " + task);
         showLine();
     }
 
@@ -131,8 +136,8 @@ public class UI {
      */
     public void showUnmarkDone(Task task) {
         showLine();
-        System.out.println(UNMARK_DONE_MESSAGE_1);
-        System.out.println("   " + task);
+        addResponse(UNMARK_DONE_MESSAGE_1);
+        addResponse("   " + task);
         showLine();
     }
 
@@ -143,9 +148,9 @@ public class UI {
      */
     public void showMatchingTasks(List<Task> tasks) {
         showLine();
-        System.out.println("Here are the matching tasks in your list:");
+        addResponse("Here are the matching tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i));
+            addResponse((i + 1) + "." + tasks.get(i));
         }
         showLine();
     }
@@ -157,7 +162,7 @@ public class UI {
      */
     public void showError(String message) {
         showLine();
-        System.out.println(" " + message);
+        addResponse(" " + message);
         showLine();
     }
 
@@ -166,15 +171,20 @@ public class UI {
      */
     public void showLoadingError() {
         showLine();
-        System.out.println(LOADING_ERROR_MESSAGE);
+        addResponse(LOADING_ERROR_MESSAGE);
         showLine();
     }
 
     public void showEditSuccess(Task task) {
         showLine();
-        System.out.println("Successfully updated the task:");
-        System.out.println("   " + task);
+        addResponse("Successfully updated the task:");
+        addResponse("   " + task);
         showLine();
     }
 
+    private void addResponse(String text) {
+        Platform.runLater(() -> {
+            dialogContainer.getChildren().add(DialogBox.getDnarDialog(text, dnarImage));
+        });
+    }
 }
