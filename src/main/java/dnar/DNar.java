@@ -48,9 +48,10 @@ public class DNar {
     }
 
     /**
-     * Main method to start the DNar application.
+     * Starts the DNar application.
+     * Initializes the user interface, storage, and application logic.
      *
-     * @param args Command line arguments (not used).
+     * @param args Command line arguments (not used in this application).
      */
     public static void main(String[] args) {
         UI ui = new UI();
