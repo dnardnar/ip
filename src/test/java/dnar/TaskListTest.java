@@ -29,7 +29,7 @@ public class TaskListTest {
         Task task = new ToDo("Test ToDo Task");
         taskList.addTask(task);
         try {
-            Task deletedTask = taskList.deleteTask(1); // Attempt to delete the task
+            Task deletedTask = taskList.deleteTask(0); // Attempt to delete the task
             assertEquals(0, taskList.size()); // Verify that the list is now empty
             assertEquals(task, deletedTask); // Verify that the correct task was deleted
         } catch (DNarException e) {

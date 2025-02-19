@@ -43,7 +43,7 @@ public class Storage {
     private void createDirectories(File directory) {
         if (directory != null && !directory.exists()) {
             if (!directory.mkdirs()) {
-                System.err.println("Failed to create directories."); // Use System.err for errors
+                System.err.println("Failed to create directories.");
             }
         }
     }
@@ -76,7 +76,7 @@ public class Storage {
                 writeTaskToFile(writer, task); // Use the helper method to write each task
             }
         } catch (IOException e) {
-            System.err.println("Error saving tasks: " + e.getMessage()); // Use System.err for errors
+            System.err.println("Error saving tasks: " + e.getMessage());
         }
     }
 
@@ -100,7 +100,7 @@ public class Storage {
                 tasks.add(task);
             }
         } catch (IOException e) {
-            System.err.println("Error loading tasks: " + e.getMessage()); // Use System.err
+            System.err.println("Error loading tasks: " + e.getMessage());
         }
         return tasks;
     }

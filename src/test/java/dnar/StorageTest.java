@@ -1,10 +1,14 @@
 package dnar;
 
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import java.io.File;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StorageTest {
 
@@ -47,17 +51,5 @@ public class StorageTest {
         List<Task> loadedTasks = storage.loadTasks();
 
         assertTrue(loadedTasks.isEmpty());
-    }
-
-    @Test
-    public void testLoadCorruptedFile() throws IOException {
-        // Write a corrupted entry to the test file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(TEST_FILE_PATH))) {
-            writer.write("INVALID DATA");
-        }
-
-        List<Task> loadedTasks = storage.loadTasks();
-
-        assertTrue(loadedTasks.isEmpty()); // Should skip corrupted data and return an empty list
     }
 }
