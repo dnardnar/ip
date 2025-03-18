@@ -54,7 +54,7 @@ It's that easy!
 
 - **Editing a Task:**  
   Format: `edit INDEX description NEW DESCRIPTION`  
-  Example: `edit 1 Buy groceries Buy milk`
+  Example: `edit 1 description Buy milk`
 
 - **Finding Tasks by Keyword:**  
   Format: `find KEYWORD`  
@@ -80,17 +80,17 @@ DNar automatically saves your task data after every command that modifies it. Th
 
 ## **[Command Summary]**
 
-| Action             | Format, Examples                          |
-|--------------------|-------------------------------------------| 
-| Add Task (To-do)   | `todo DESCRIPTION`, e.g., `todo Buy milk` |
-| Add Deadline       | `deadline DESCRIPTION /by DATE`, e.g., `deadline Submit report /by 2025-03-20` |
+| Action             | Format, Examples                                                                                  |
+|--------------------|---------------------------------------------------------------------------------------------------| 
+| Add Task (To-do)   | `todo DESCRIPTION`, e.g., `todo Buy milk`                                                         |
+| Add Deadline       | `deadline DESCRIPTION /by DATE`, e.g., `deadline Submit report /by 2025-03-20`                    |
 | Add Event          | `event DESCRIPTION /from DAY TIME /to TIME` , e.g., `event project meeting /from Mon 2pm /to 4pm` |
-| List Tasks         | `list`, e.g., `list`                     |
-| Mark as Done       | `mark INDEX`, e.g., `mark 2`             |
-| Unmark as Not Done | `unmark INDEX`, e.g., `unmark 2`         |
-| Edit Task          | `edit INDEX description NEW DESCRIPTION`  , e.g., `edit 1 Buy groceries Buy milk` |
-| Find Tasks         | `find KEYWORD [MORE_KEYWORDS]`, e.g., `find groceries milk` |
-| Delete Task        | `delete INDEX`, e.g., `delete 3`         |
+| List Tasks         | `list`, e.g., `list`                                                                              |
+| Mark as Done       | `mark INDEX`, e.g., `mark 2`                                                                      |
+| Unmark as Not Done | `unmark INDEX`, e.g., `unmark 2`                                                                  |
+| Edit Task          | `edit INDEX description NEW DESCRIPTION`  , e.g., `edit 1 description Buy milk`                   |
+| Find Tasks         | `find KEYWORD [MORE_KEYWORDS]`, e.g., `find groceries milk`                                       |
+| Delete Task        | `delete INDEX`, e.g., `delete 3`                                                                  |
 
 ---
 
