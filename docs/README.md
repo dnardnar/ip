@@ -37,8 +37,8 @@ It's that easy!
   Example: `deadline Submit assignment /by 2025-03-20`
 
 - **Adding an Event:**  
-  Format: `event DESCRIPTION /at DATE`  
-  Example: `event Team meeting /at 2025-03-22`
+  Format: `event DESCRIPTION /from DAY TIME /to TIME`  
+  Example: `event project meeting /from Mon 2pm /to 4pm`
 
 - **Listing All Tasks:**  
   Format: `list`  
@@ -53,8 +53,8 @@ It's that easy!
   Example: `unmark 2`
 
 - **Editing a Task:**  
-  Format: `edit INDEX DESCRIPTION`  
-  Example: `edit 1 Buy milk instead of groceries`
+  Format: `edit INDEX description NEW DESCRIPTION`  
+  Example: `edit 1 Buy groceries Buy milk`
 
 - **Finding Tasks by Keyword:**  
   Format: `find KEYWORD`  
@@ -84,11 +84,11 @@ DNar automatically saves your task data after every command that modifies it. Th
 |--------------------|-------------------------------------------| 
 | Add Task (To-do)   | `todo DESCRIPTION`, e.g., `todo Buy milk` |
 | Add Deadline       | `deadline DESCRIPTION /by DATE`, e.g., `deadline Submit report /by 2025-03-20` |
-| Add Event          | `event DESCRIPTION /at DATE`, e.g., `event Team meeting /at 2025-03-22` |
+| Add Event          | `event DESCRIPTION /from DAY TIME /to TIME` , e.g., `event project meeting /from Mon 2pm /to 4pm` |
 | List Tasks         | `list`, e.g., `list`                     |
 | Mark as Done       | `mark INDEX`, e.g., `mark 2`             |
 | Unmark as Not Done | `unmark INDEX`, e.g., `unmark 2`         |
-| Edit Task          | `edit INDEX DESCRIPTION`, e.g., `edit 1 Buy milk instead of groceries` |
+| Edit Task          | `edit INDEX description NEW DESCRIPTION`  , e.g., `edit 1 Buy groceries Buy milk` |
 | Find Tasks         | `find KEYWORD [MORE_KEYWORDS]`, e.g., `find groceries milk` |
 | Delete Task        | `delete INDEX`, e.g., `delete 3`         |
 
